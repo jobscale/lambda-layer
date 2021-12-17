@@ -1,0 +1,10 @@
+service: layers
+
+provider:
+  name: aws
+  region: ${env:AWS_REGION}
+
+layers:
+  layer:
+    path: opt
+    description: "exclude 'node_modules/'"

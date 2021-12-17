@@ -1,0 +1,34 @@
+service: useLayers
+frameworkVersion: "2"
+configValidationMode: error
+provider:
+  lambdaHashingVersion: 20201221
+  name: aws
+  region: ${env:AWS_REGION}
+  runtime: nodejs14.x
+  stage: dev
+  layers:
+    - arn:aws:lambda:${aws:region}:${aws:accountId}:layer:layer:1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - "s3:*"
+          Resource: "*"
+package:
+  patterns:
+    - "!.git/**"
+    - "!test/**"
+    - "!logs/**"
+    - "!src/**"
+    - "!eslint/**"
+    - "!coverage/**"
+    - "!examples/**"
+functions:
+  app:
+    handler: lambda.handler
+    memorySize: 128
+    timeout: 10
+    environment:
+      LOG_LEVEL: trace
